@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>API Change Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1 data-i18n="appTitle">API Change Tracker</h1>
+        <p data-i18n="appSubtitle">Sledovanie zmien v OpenAPI špecifikáciách</p>
+    </header>
+
+    <section class="settings">
+        <h2 data-i18n="globalControlHeading">Globálna kontrola</h2>
+        <div class="settings-row">
+            <label for="interval-select" data-i18n="intervalLabel">Interval kontroly:</label>
+            <select id="interval-select">
+                <option value="1" data-i18n="intervalEvery1">Každú 1 hodinu</option>
+                <option value="5" data-i18n="intervalEvery5">Každých 5 hodín</option>
+                <option value="10" data-i18n="intervalEvery10">Každých 10 hodín</option>
+                <option value="24" data-i18n="intervalEvery24">Každých 24 hodín</option>
+            </select>
+        </div>
+        <div class="settings-row">
+            <button id="toggle-advanced" class="secondary small" type="button" data-i18n="advancedSettingsToggle">Rozšírené nastavenia</button>
+        </div>
+        <div id="advanced-settings" class="advanced-settings hidden">
+            <div class="settings-row">
+                <label for="language-select" data-i18n="languageLabel">Jazyk:</label>
+                <select id="language-select">
+                    <option value="sk" data-i18n="languageSk">Slovensky</option>
+                    <option value="en" data-i18n="languageEn">English</option>
+                </select>
+            </div>
+        </div>
+        <button id="save-settings" data-i18n="saveSettings">Uložiť nastavenia</button>
+        <div id="interval-info" class="info"></div>
+    </section>
+
+    <section class="add-endpoint">
+        <h2 data-i18n="addEndpointHeading">Pridať sledovaný endpoint</h2>
+        <form id="add-endpoint-form">
+            <div class="form-row">
+                <label for="name" data-i18n="appNameLabel">Názov aplikácie</label>
+                <input type="text" id="name" data-i18n-placeholder="appNamePlaceholder" placeholder="Napr. IWB-Pilot API" required>
+            </div>
+            <div class="form-row">
+                <label for="url" data-i18n="appUrlLabel">URL OpenAPI JSON</label>
+                <input type="url" id="url" data-i18n-placeholder="appUrlPlaceholder" placeholder="https://..." required>
+            </div>
+            <button type="submit" data-i18n="addButton">Pridať</button>
+        </form>
+        <div id="form-message" class="info"></div>
+    </section>
+
+    <section class="list-endpoints">
+        <h2 data-i18n="endpointsHeading">Sledované API</h2>
+        <table id="endpoints-table">
+            <thead>
+            <tr>
+                <th data-i18n="nameHeader">Názov</th>
+                <th data-i18n="urlHeader">URL</th>
+                <th data-i18n="checkedHeader">Posledná kontrola</th>
+                <th data-i18n="statusHeader">Stav</th>
+                <th data-i18n="countHeader">Počet zmien</th>
+                <th data-i18n="actionsHeader">Akcie</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id="endpoints-empty" class="info hidden" data-i18n="noEndpoints">Zatiaľ nemáš pridané žiadne API.</div>
+    </section>
+
+    <section class="details">
+        <h2 data-i18n="detailsHeading">Detaily vybraného API</h2>
+        <div id="details-placeholder" class="info" data-i18n="selectApi">Vyber API zo zoznamu vyššie.</div>
+        <div id="details-content" class="hidden">
+            <h3 id="details-title"></h3>
+
+            <div class="details-section">
+                <h4 data-i18n="changesSection">Zmeny</h4>
+                <table id="changes-table">
+                    <thead>
+                    <tr>
+                        <th data-i18n="dateHeader">Dátum</th>
+                        <th data-i18n="typeHeader">Typ</th>
+                        <th data-i18n="detailHeader">Detail</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="changes-empty" class="info hidden" data-i18n="noChanges">Zatiaľ žiadne zmeny.</div>
+            </div>
+
+            <div class="details-section">
+                <h4 data-i18n="logsSection">Logy kontrol</h4>
+                <table id="logs-table">
+                    <thead>
+                    <tr>
+                        <th data-i18n="dateHeader">Dátum</th>
+                        <th data-i18n="statusHeader">Stav</th>
+                        <th data-i18n="messageHeader">Správa</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="logs-empty" class="info hidden" data-i18n="noLogs">Zatiaľ žiadne logy.</div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
